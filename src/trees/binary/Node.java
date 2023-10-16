@@ -1,4 +1,4 @@
-package trees.ternary;
+package trees.binary;
 
 public class Node
 {
@@ -6,14 +6,11 @@ public class Node
     private Node leftChild;
     private Node rightChild;
 
-    private Node middleChild;
-
     public Node(String name)
     {
         this.name = name;
         this.leftChild = null;
         this.rightChild = null;
-        this.middleChild = null;
     }
 
     public String getName() {
@@ -28,20 +25,11 @@ public class Node
         return rightChild;
     }
 
-    public Node getMiddleChild() {
-        return middleChild;
-    }
-
     public void setLeftChild(Node leftChild) {
         this.leftChild = leftChild;
     }
 
     public void setRightChild(Node rightChild) {
         this.rightChild = rightChild;
-    }
-
-
-    public void setMiddleChild(Node middleChild) {
-        this.middleChild = middleChild;
     }
 }

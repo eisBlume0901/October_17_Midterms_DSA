@@ -27,4 +27,10 @@ public interface InputValidator
         }
         return Integer.parseInt(choice);
     }
+
+    default boolean containsSpecialCharacters(String str)
+    {
+        return str.matches(".*[^a-zA-Z0-9 ].*");
+    }
+
 }

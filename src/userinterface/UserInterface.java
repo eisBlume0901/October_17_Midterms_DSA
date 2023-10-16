@@ -112,10 +112,6 @@ public class UserInterface implements InputValidator
                 .forEach(person -> specialCharactersList.add(person.getName()));
     }
 
-    private boolean containsSpecialCharacters(String str) {
-        return str.matches(".*[^a-zA-Z0-9 ].*");
-    }
-
     private void removeSpecialCharacters(List<Person> personList) {
 
         for (Person person : personList)
