@@ -1,9 +1,8 @@
 package userinterface;
 
 import domain.Person;
-
+import trees.ternary.TernaryTree;
 import java.util.*;
-
 import static java.lang.System.*;
 
 public class UserInterface implements InputValidator
@@ -15,6 +14,7 @@ public class UserInterface implements InputValidator
     private Stack<Person> stackNtoZ;
     private List<String> specialCharactersList;
     private List<String> shuffledList;
+    private TernaryTree ternaryTree;
 
     private List<Person> personList;
     public UserInterface()
@@ -26,6 +26,7 @@ public class UserInterface implements InputValidator
         shuffledList = new ArrayList<>();
         specialCharactersList = new ArrayList<>();
         personList = new ArrayList<>();
+        ternaryTree = new TernaryTree();
     }
 
     public void start()
@@ -53,6 +54,10 @@ public class UserInterface implements InputValidator
         out.println("List of special names");
         storeNamesWithSpecialCharactersStack();
         displayLists(specialCharactersList);
+
+        out.println("Ternary Tree Order Traversal: ");
+        storeToTernaryTree(shuffledList);
+        displayOrderTraversalsFromTernaryTree();
     }
     private void storeToList()
     {
@@ -126,5 +131,21 @@ public class UserInterface implements InputValidator
         stringList
                 .stream()
                 .forEach(names -> out.println(names));
+    }
+
+    private void storeToTernaryTree(List<String> shuffledList)
+    {
+        Collections.sort(shuffledList);
+        for (String personName : shuffledList)
+        {
+            ternaryTree.insert(personName);
+        }
+    }
+
+    private void displayOrderTraversalsFromTernaryTree()
+    {
+        ternaryTree.preorderTraversal();
+        ternaryTree.inorderTraversal();
+        ternaryTree.postorderTraversal();
     }
 }

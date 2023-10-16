@@ -5,9 +5,6 @@ public class TernaryTree {
     private Node root;
 
     public void insert(String name) {
-//        if (root == null && name.charAt(0) == 'A') {
-//            root = new Node(name);
-//        }
         root = insert(root, name);
     }
 
@@ -17,36 +14,15 @@ public class TernaryTree {
         }
 
         String current = node.getName();
-        if (name.startsWith(current)) {
-            if (name.compareTo(current) < 0) {
-                node.setLeftChild(insert(node.getLeftChild(), name));
-            } else if (name.compareTo(current) > 0) {
-                node.setRightChild(insert(node.getRightChild(), name));
-            } else {
-                node.setMiddleChild(insert(node.getMiddleChild(), name));
-            }
+        if (name.compareTo(current) < 0) {
+            node.setLeftChild(insert(node.getLeftChild(), name));
+        } else if (name.compareTo(current) > 0) {
+            node.setRightChild(insert(node.getRightChild(), name));
         } else {
-            String minPrefix = getMinPrefix(current, name);
-            String nodename = current.substring(0, minPrefix.length());
-            String namePrefix = name.substring(0, minPrefix.length());
-            if (namePrefix.compareTo(nodename) < 0) {
-                node.setLeftChild(insert(node.getLeftChild(), name));
-            } else if (namePrefix.compareTo(nodename) > 0) {
-                node.setRightChild(insert(node.getRightChild(), name));
-            } else {
-                node.setMiddleChild(insert(node.getMiddleChild(), name));
-            }
+            node.setMiddleChild(insert(node.getMiddleChild(), name));
         }
-        return node;
-    }
 
-    private String getMinPrefix(String str1, String str2) {
-        int n = Math.min(str1.length(), str2.length());
-        int i = 0;
-        while (i < n && str1.charAt(i) == str2.charAt(i)) {
-            i++;
-        }
-        return str1.substring(0, i);
+        return node;
     }
 
     public void preorderTraversal() {
