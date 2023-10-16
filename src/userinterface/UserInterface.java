@@ -1,6 +1,7 @@
 package userinterface;
 
 import domain.Person;
+import trees.binary.BinaryTree;
 import trees.ternary.TernaryTree;
 import java.util.*;
 import static java.lang.System.*;
@@ -14,9 +15,11 @@ public class UserInterface implements InputValidator
     private Stack<Person> stackNtoZ;
     private List<String> specialCharactersList;
     private List<String> shuffledList;
-    private TernaryTree ternaryTree;
-
     private List<Person> personList;
+    private TernaryTree ternaryTree;
+    private TernaryTree ternaryTreeForSpecialCharacters;
+    private BinaryTree binaryTree;
+    private BinaryTree binaryTreeForSpecialCharacters;
     public UserInterface()
     {
         scanner = new Scanner(in);
@@ -27,6 +30,9 @@ public class UserInterface implements InputValidator
         specialCharactersList = new ArrayList<>();
         personList = new ArrayList<>();
         ternaryTree = new TernaryTree();
+        ternaryTreeForSpecialCharacters = new TernaryTree();
+        binaryTree = new BinaryTree();
+        binaryTreeForSpecialCharacters = new BinaryTree();
     }
 
     public void start()
@@ -47,17 +53,25 @@ public class UserInterface implements InputValidator
 
         removeSpecialCharacters(personList);
 
-        out.println("Shuffled List of names starting with A-Z");
+        out.println("Shuffled List of Names Starting with A-Z: ");
         Collections.shuffle(shuffledList);
         displayLists(shuffledList);
 
-        out.println("List of special names");
+        out.println("List of Names with Special Characters: ");
         storeNamesWithSpecialCharactersStack();
         displayLists(specialCharactersList);
 
         out.println("Ternary Tree Order Traversal: ");
-        storeToTernaryTree(shuffledList);
-        displayOrderTraversalsFromTernaryTree();
+        storeToTernaryTree(ternaryTree, shuffledList);
+        displayOrderTraversalsFromTernaryTree(ternaryTree);
+
+        out.println("Ternary Tree Order Traversal for Names with Special Characters:");
+        storeToTernaryTree(ternaryTreeForSpecialCharacters, specialCharactersList);
+
+        storeToBinaryTree(binaryTree, shuffledList);
+        storeToBinaryTree(binaryTreeForSpecialCharacters, specialCharactersList);
+        searchAndTraverse(binaryTree, binaryTreeForSpecialCharacters);
+
     }
     private void storeToList()
     {
@@ -129,19 +143,51 @@ public class UserInterface implements InputValidator
                 .forEach(names -> out.println(names));
     }
 
-    private void storeToTernaryTree(List<String> shuffledList)
+    private void storeToTernaryTree(TernaryTree tTree, List<String> list)
     {
-        Collections.sort(shuffledList);
-        for (String personName : shuffledList)
-        {
-            ternaryTree.insert(personName);
-        }
+        Collections.sort(list);
+        for (String personName : list)
+            tTree.insert(personName);
     }
 
-    private void displayOrderTraversalsFromTernaryTree()
+    private void displayOrderTraversalsFromTernaryTree(TernaryTree tree)
     {
-        ternaryTree.preorderTraversal();
-        ternaryTree.inorderTraversal();
-        ternaryTree.postorderTraversal();
+        tree.preorderTraversal();
+        tree.inorderTraversal();
+        tree.postorderTraversal();
+    }
+
+    private void storeToBinaryTree(BinaryTree bTree, List<String> list)
+    {
+        Collections.sort(list);
+        for (String uniqueName : list)
+            bTree.insert(uniqueName);
+    }
+    private void searchAndTraverse(BinaryTree bTree1, BinaryTree bTree2)
+    {
+        out.println("Enter name to search: ");
+        String name = scanner.nextLine();
+
+        boolean foundInbTree1 = bTree1.search(name);
+        boolean foundInbTree2 = bTree2.search(name);
+
+        if (foundInbTree1)
+        {
+            out.println(name + " found in Binary Tree 1 (no special characters). Performing Pre-Order Traversal...");
+            bTree1.preOrderTraversal();
+        }
+        else if (foundInbTree2)
+        {
+            out.println(name + " found in Binary Tree 2 (with special characters). Performing Pre-Order Traversal...");
+            bTree2.postOrderTraversal();
+        }
+        else
+        {
+            out.println(name + " not found in Binary Tree 1 and 2. Performing In-Order Traversal...");
+            out.println("Binary Tree 1 (no special characters) ");
+            bTree1.inOrderTraversal();
+            out.println("Binary Tree 2 (with special characters) ");
+            bTree2.inOrderTraversal();
+        }
     }
 }
