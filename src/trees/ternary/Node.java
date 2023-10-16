@@ -1,21 +1,43 @@
 package trees.ternary;
 
-import lombok.Data;
+public class Node {
+    private String name;
+    private Node leftChild;
+    private Node middleChild;
+    private Node rightChild;
 
-@Data
-public class Node<T extends Comparable<T>> {
-
-    private final char character;
-
-    private T value;
-
-    private Node<T> leftChild;
-    private Node<T> middleChild;
-    private Node<T> rightChild;
-
-
-    public boolean isEndOfWord() {
-        return value != null;
+    public Node(String name) {
+        this.name = name;
+        this.leftChild = null;
+        this.middleChild = null;
+        this.rightChild = null;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public Node getLeftChild() {
+        return leftChild;
+    }
+
+    public void setLeftChild(Node leftChild) {
+        this.leftChild = leftChild;
+    }
+
+    public Node getMiddleChild() {
+        return middleChild;
+    }
+
+    public void setMiddleChild(Node middleChild) {
+        this.middleChild = middleChild;
+    }
+
+    public Node getRightChild() {
+        return rightChild;
+    }
+
+    public void setRightChild(Node rightChild) {
+        this.rightChild = rightChild;
+    }
 }

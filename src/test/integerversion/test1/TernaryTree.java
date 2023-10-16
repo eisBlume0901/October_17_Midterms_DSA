@@ -139,6 +139,7 @@ public class TernaryTree {
         tree.insert("Aang");
         tree.insert("Blake");
         tree.insert("Brad");
+        tree.insert("Arabella");
 
         tree.displayTree();
         tree.preorderTraversal();

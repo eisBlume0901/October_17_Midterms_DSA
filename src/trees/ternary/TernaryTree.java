@@ -1,91 +1,115 @@
 package trees.ternary;
 
-public class TernaryTree<T extends Comparable<T>> implements Tree<T> {
 
-    private Node<T> root;
+public class TernaryTree {
+    private Node root;
 
-    @Override
-    public Tree<T> insert(String word, T value) {
-        root = insert(root, word, value, 0);
-        return this;
+    public void insert(String name) {
+//        if (root == null && name.charAt(0) == 'A') {
+//            root = new Node(name);
+//        }
+        root = insert(root, name);
     }
 
-    private Node<T> insert(Node<T> node, String word, T value, int index) {
-
-        char character = word.charAt(index);
+    private Node insert(Node node, String name) {
         if (node == null) {
-            node = new Node<>(character);
+            return new Node(name);
         }
 
-        if (character < node.getCharacter()) {
-            node.setLeftChild(insert(node.getLeftChild(), word, value, index));
-        } else if (character > node.getCharacter()) {
-            node.setRightChild(insert(node.getRightChild(), word, value, index));
-        } else if (index < word.length() - 1) {
-            node.setMiddleChild(insert(node.getMiddleChild(), word, value, index + 1));
-        } else if (index == word.length() - 1) {
-            node.setValue(value);
+        String current = node.getName();
+        if (name.startsWith(current)) {
+            if (name.compareTo(current) < 0) {
+                node.setLeftChild(insert(node.getLeftChild(), name));
+            } else if (name.compareTo(current) > 0) {
+                node.setRightChild(insert(node.getRightChild(), name));
+            } else {
+                node.setMiddleChild(insert(node.getMiddleChild(), name));
+            }
+        } else {
+            String minPrefix = getMinPrefix(current, name);
+            String nodename = current.substring(0, minPrefix.length());
+            String namePrefix = name.substring(0, minPrefix.length());
+            if (namePrefix.compareTo(nodename) < 0) {
+                node.setLeftChild(insert(node.getLeftChild(), name));
+            } else if (namePrefix.compareTo(nodename) > 0) {
+                node.setRightChild(insert(node.getRightChild(), name));
+            } else {
+                node.setMiddleChild(insert(node.getMiddleChild(), name));
+            }
         }
         return node;
     }
 
-    @Override
-    public boolean contains(String word) {
-        Node<T> node = search(root, word, 0);
-        return node != null && node.isEndOfWord();
-    }
-
-    @Override
-    public T get(String word) {
-        Node<T> node = search(root, word, 0);
-        return node != null ? node.getValue() : null;
-    }
-
-    private Node<T> search(Node<T> node, String word, int index) {
-        if (node == null) {
-            return null;
+    private String getMinPrefix(String str1, String str2) {
+        int n = Math.min(str1.length(), str2.length());
+        int i = 0;
+        while (i < n && str1.charAt(i) == str2.charAt(i)) {
+            i++;
         }
-        char character = word.charAt(index);
-        if (character < node.getCharacter()) {
-            return search(node.getLeftChild(), word, index);
-        } else if (character > node.getCharacter()) {
-            return search(node.getRightChild(), word, index);
-        } else if (index < word.length() - 1) {
-            return search(node.getMiddleChild(), word, index + 1);
+        return str1.substring(0, i);
+    }
+
+    public void preorderTraversal() {
+        System.out.print("Preorder Traversal: ");
+        preorderTraversal(root);
+        System.out.println();
+    }
+
+    public void inorderTraversal() {
+        System.out.print("Inorder Traversal: ");
+        inorderTraversal(root);
+        System.out.println();
+    }
+
+    public void postorderTraversal() {
+        System.out.print("Postorder Traversal: ");
+        postorderTraversal(root);
+        System.out.println();
+    }
+
+    private void preorderTraversal(Node node) {
+        if (node != null) {
+            System.out.print(node.getName() + " ");
+            preorderTraversal(node.getLeftChild());
+            preorderTraversal(node.getMiddleChild());
+            preorderTraversal(node.getRightChild());
         }
-        return node;
     }
 
-    @Override
-    public void softDelete(String word) {
-        delete(root, word, 0);
+    private void inorderTraversal(Node node) {
+        if (node != null) {
+            inorderTraversal(node.getLeftChild());
+            System.out.print(node.getName() + " ");
+            inorderTraversal(node.getMiddleChild());
+            inorderTraversal(node.getRightChild());
+        }
     }
 
-    private void delete(Node<T> node, String word, int index) {
-        if (node == null) return;
-        char character = word.charAt(index);
-        if (character < node.getCharacter())
-            delete(node.getLeftChild(), word, index);
-        else if (character > node.getCharacter())
-            delete(node.getRightChild(), word, index);
-        else if (index < word.length() - 1)
-            delete(node.getMiddleChild(), word, index + 1);
-        else if (index == word.length() - 1 && node.isEndOfWord())
-            node.setValue(null);
+    private void postorderTraversal(Node node) {
+        if (node != null) {
+            postorderTraversal(node.getLeftChild());
+            postorderTraversal(node.getMiddleChild());
+            postorderTraversal(node.getRightChild());
+            System.out.print(node.getName() + " ");
+        }
     }
     public void displayTree() {
-        displayTree(root, 0);
+        displayTree(root, 0, true);
     }
 
-    private void displayTree(Node<T> node, int level) {
+    private void displayTree(Node node, int level, boolean isRoot) {
         if (node != null) {
-            displayTree(node.getRightChild(), level + 1);
+            displayTree(node.getRightChild(), level + 1, false);
             for (int i = 0; i < level; i++) {
                 System.out.print("\t");
             }
-            System.out.println(node.getCharacter());
-            displayTree(node.getMiddleChild(), level + 1);
-            displayTree(node.getLeftChild(), level + 1);
+            if (isRoot) {
+                System.out.println("Root: " + node.getName());
+            } else {
+                System.out.println(node.getName());
+            }
+            displayTree(node.getMiddleChild(), level + 1, false);
+            displayTree(node.getLeftChild(), level + 1, false);
         }
     }
 }
