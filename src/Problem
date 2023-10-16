@@ -1,0 +1,38 @@
+Write a program that will ask the user to input the names and ages of n number of people.
+Split the list of people into 2 stacks; The first Stack will consist of people whose name
+starts with any of the first 13 letters of the alphabet while the 2nd stack will have people
+whose name starts with the last 13 letters of the alphabet. After sort stack 1 in descending
+order and stack 2 in ascending order based on their age and shuffle both stacks together (Similar
+to how you would shuffle a deck of cards together; one from stack one then one from stack 2). During
+the sort if a name consists of any special characters or numbers in any of the stacks they should be
+moved to their own collection. Once the sorting and the shuffling has finished create a tree that handles
+up to 3 nodes (Ternary Tree). Using the merged stack continuously fill the tree where the root starts with a
+person whose name starts with A then the succeeding nodes to the root must have a person whose name starts with the
+next available letter (ex. If B is not available then an A root can contain a child whose name starts with C) or the same letter.
+If the person does not fit into the root's then skip it and add it to a collection that will be checked later.
+Once the merged stack is finished perform the same process to the skipped people. Continue until both the merged stack
+and the skipped list are both empty.
+
+
+- 1st stack A-M age descending
+- 2nd stack N-Z age ascending
+- shuffle both
+- another collection for those containig special characters or numbers
+
+
+Ex.
+
+              Alvin
+
+Aang     Brad      Blake
+
+
+
+Create a new binary tree for the collection of people whose name consists of special characters.
+Continuously fill this binary tree giving priority to certain the people based on their names.
+Once both trees are completed ask the user to search for a name. If the name can be found in tree 1 (No special characters)
+then perform pre order traversal on tree 1. If it can be found in tree 2 (Special characters) then perform post order traversal.
+If neither the perform inorder on both.
+
+
+https://www.sanfoundry.com/java-program-implement-ternary-tree/
