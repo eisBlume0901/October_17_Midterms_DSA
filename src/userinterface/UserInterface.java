@@ -178,7 +178,7 @@ public class UserInterface implements InputValidator
         }
         else if (foundInbTree2)
         {
-            out.println(name + " found in Binary Tree 2 (with special characters). Performing Pre-Order Traversal...");
+            out.println(name + " found in Binary Tree 2 (with special characters). Performing Post-Order Traversal...");
             bTree2.postOrderTraversal();
         }
         else
